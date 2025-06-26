@@ -6,11 +6,24 @@ Parameters:
     Type: String
   GetLogs:
     Type: String
+  UserPoolId:
+    Type: String
+  UserPoolClientId:
+    Type: String
 Resources:
   HttpApi:
     Type: AWS::Serverless::HttpApi
     Properties:
       StageName: dev
+      Auth:
+        DefaultAuthorizer: CognitoAuthorizer
+        Authorizers:
+          CognitoAuthorizer:
+            IdentitySource: "$request.header.Authorization"
+            JwtConfiguration:
+              issuer: !Sub "https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPoolId}"
+              audience:
+                - !Ref UserPoolClientId
       DefinitionBody:
         "Fn::Transform":
           Name: "AWS::Include"

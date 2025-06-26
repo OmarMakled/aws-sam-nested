@@ -2,6 +2,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
+  AuthStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: auth.yaml
   OrderStack:
     Type: AWS::Serverless::Application
     Properties:
@@ -17,6 +21,8 @@ Resources:
       Parameters:
         GetOrders: !GetAtt OrderStack.Outputs.GetOrders
         GetLogs: !GetAtt LogStack.Outputs.GetLogs
+        UserPoolId: !GetAtt AuthStack.Outputs.UserPoolId
+        UserPoolClientId: !GetAtt AuthStack.Outputs.UserPoolClientId
 
 Outputs:
   HttpApiUrl:

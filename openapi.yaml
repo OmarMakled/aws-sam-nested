@@ -2,6 +2,8 @@ openapi: 3.0.1
 info:
   title: HTTPApi
   version: 1.0.0
+security:
+  - CognitoAuthorizer: []
 paths:
   /orders:
     get:
@@ -29,3 +31,10 @@ paths:
         httpMethod: POST
         payloadFormatVersion: "2.0"
         type: aws_proxy
+
+components:
+  securitySchemes:
+    CognitoAuthorizer:
+      type: oauth2
+      name: Authorization
+      in: header
