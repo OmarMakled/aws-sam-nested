@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  title: HTTPApi
+  version: 1.0.0
+paths:
+  /orders:
+    get:
+      responses:
+        '200':
+          description: Success
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::GetAtt: [ ApiGwExecutionRole, Arn ]
+        uri:
+          Fn::Sub: ${GetOrders}
+        httpMethod: POST
+        payloadFormatVersion: "2.0"
+        type: aws_proxy
+  /logs:
+    get:
+      responses:
+        '200':
+          description: Success
+      x-amazon-apigateway-integration:
+        credentials:
+          Fn::GetAtt: [ ApiGwExecutionRole, Arn ]
+        uri:
+          Fn::Sub: ${GetLogs}
+        httpMethod: POST
+        payloadFormatVersion: "2.0"
+        type: aws_proxy
